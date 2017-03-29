@@ -5,10 +5,19 @@ class LyricList extends Component {
     super(props)
   }
 
+  onLike(id) {
+    console.log("liked "+ id)
+  }
+
   renderLyrics() {
     return this.props.lyrics.map(({id, content}) => {
       return (
-        <li key={id}>{content}</li>
+        <li key={id} className="collection-item">
+          {content}
+          <i className="material-icons" onClick={(id) => this.onLike(id)} >
+            thumb_up
+          </i>
+        </li>
       )
     })
   }

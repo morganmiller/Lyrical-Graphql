@@ -14,7 +14,6 @@ class LyricList extends Component {
   }
 
   render() {
-    console.log(this)
     return (
       <ul>
         {this.renderLyrics()}

@@ -5,11 +5,23 @@ import { Link } from 'react-router';
 import fetchSongsQuery from '../queries/fetchSongs';
 
 class SongList extends Component {
+  onSongDelete(id) {
+    this.props.mutate({
+      variables: { id }
+    }).then(() => this.props.data.refetch()); // better convention for refetching own component's data
+  }
+
   renderSongs() {
-    return this.props.data.songs.map(song => {
+    return this.props.data.songs.map(({id, title}) => {
       return (
-        <li key={song.id} className="collection-tiem">
-          {song.title}
+        <li key={id} className="collection-tiem">
+          {title}
+          <i
+            className="material-icons"
+            onClick={() => this.onSongDelete(id)}
+          >
+            delete
+          </i>
         </li>
       );
     });
@@ -33,4 +45,14 @@ class SongList extends Component {
   }
 }
 
-export default graphql(fetchSongsQuery)(SongList);
+const mutation = gql`
+  mutation DeleteSong($id: ID) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`
+
+export default graphql(mutation)(
+  graphql(fetchSongsQuery)(SongList)
+); //strange syntax for multiple queries/mutations together

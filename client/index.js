@@ -10,7 +10,9 @@ import SongList from './components/SongList';
 import SongCreate from './components/SongCreate';
 import SongDetail from './components/SongDetail';
 
-const client = new ApolloClient({});
+const client = new ApolloClient({
+  dataIdFromObject: o => o.id // this only works with ALL unique ids across DB, not just table (i think)
+});
 
 const Root = () => {
   return (
